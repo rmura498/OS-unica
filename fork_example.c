@@ -26,7 +26,7 @@ int main(int argc, char **argv)
         case 0:
             printf("The child PID is: %d\n", getpid());
             printf("CHILD: a = %d\n b = %d\n c = %d\n", a-2, b+1, c-7);
-            break;
+            return 0;
 
         default:
             printf("PARENT: a = %d\n b = %d\n c = %d\n", a, b, c);
