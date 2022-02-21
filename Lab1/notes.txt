@@ -1,0 +1,93 @@
+6 OCT
+Program and functions Libraries:
+
+A function is a collection of instructions to be executed according to a specified sequence that allows accomplishing
+a well-defined task.
+
+A program is a collection of functions:
+that are part of the program or available in shared library.
+
+A library is a container of functions.
+System and application libraries are usually stored in two standard directories in UNIX and Linux system:
+/usr/lib and /usr/local/lib
+
+## In this lab we will see how a library is written. ##
+
+So the libraries are shared and you can include the functions of the libraries in any program.
+We got:
+
+Static libraries: you wrote some pieces of code, you compile it, and keep this compiled code in an archive,
+                then when you write a program, during compilation if you have included a library is the compiler that
+                creates the object code for your own code, take the object code that someone has already compiled and
+                put everything together, the advantage is that you can reuse the code.
+
+Dynamic Libraries: They are not included in the compilation of your program, so you compile your program
+                   you will call a dynamic library, so typically there are references called wooks, something that
+                   tells to the OS at runtime, please go to the main memory to see if that code is already there,
+                   if it is not there it is loaded at runtime, this is why they are dynamic
+
+
+The C compiler in Linux
+
+The typical C compiler in Linux system is gcc GNU C Compiler
+
+Syntax to build a binary executable gcc <source_code>.c -o <exec_name>
+Syntax to produce object code gcc -c <source_code>.c
+
+AN executable should have the instructions for the OS that say: go into this part
+of the main memory load the first instruction and run it.
+The Object code has all the instructions, but it does not include the instructions for the OS to run the program.
+
+so writing the first file vector.c
+after write it
+in the terminal i wrote: gcc vector.c -o Vector
+The to call the executable i wrote ./Vector and it will be run
+
+NOW
+So the idea is instead to have the 4 functions here inside the code, we will write this four functions outside
+the main in 4 different functions.
+
+so i created 4 files.
+
+The new main file is VectorLib.c
+Now we need a header file that includes the prototype of the 4 functions.
+
+so we need now to create the library
+now we have to take all of those 4 files and product the object code like gcc -c max.c
+
+NOW we have to create the library of all this object code
+
+we need the AR command that creates and maintains library archives
+we will use it with -r that replace or add specified files to the archive.
+so i wrote:
+ ar -r libstatV.a *.o
+i am creating a lib called libstatV including all the .o files in that directory
+ar -t libstatV.a to see what is inside
+
+Now how works to compile VectorLib.c?
+We have gcc the name of the source file, then before specify the name of the output, we have to tell
+the compiler that some functions are defined into libraries, first we need to tel that the library is here with -L.
+If you do not specify it the compiler looks in /usr/lib, and in the end you need to specify the name of the library
+after -l, BUT the name of it is not libstatV.a the name is statV, lib and .a are standard prefix and extension.
+
+gcc VectorLib.c -L. -lstatV -o Vectorl
+
+the if i type ./Vectorl it works like before
+
+SECOND PART
+
+Another important issue, command line arguments
+
+Inside the main function, you can have two inputs, an integer and an array of strings.
+The integer is the so-called arguments count, argc count the number of strings separate by a blank that
+are in the command line. argv contains the single strings that is passed.
+
+Another issue: Error management
+
+If your program does not take into account which could be the error then you can end up with some
+strange output just because you do not capture the error.
+
+
+
+
+
