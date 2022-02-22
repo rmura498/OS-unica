@@ -1,0 +1,82 @@
+You have N files. Each file contains the "transcript of records" of one student in
+the form
+SubjectName Mark Credits
+The file is named SurnameName.txt
+For each student you have to show (print on the screen):
+SurnameName.txt WeightedAverage MaxVote OldestDate-MostRecentDate
+
+Write a sequential program first, where each filename is provided in input by the user
+iteratively
+
+Then parallelize the program so that processing of each file is carried out
+by a child process. In this case, the list of filename is provided in an input file
+that can be provided as an argument.
+
+So with FileProcessing.c we have written a program that computes some information on the
+number of files that you want and actually they are processed one after the other.
+We have the for loop with k.
+We want to parallelize them, so we want that each process reads just one file and print the result
+just for that one.
+
+So we have the parent process that just creates all the structure and the variables,
+and then we can create child processes each one devoted to process one file in parallel.
+so under the first for we can add fork in FileProcessing2.c
+
+Then after we called fork we want all the lines above to be performed by
+the child process, so the parent has not to do anything else.
+We do not have to use switch because there is no default action to be
+performed.
+ATTENTION WE need to exit at the end of the child process otherwise
+it continues with the for.
+
+NOW ----------------------------------------------------------
+The exec() family
+SO you can have designed the system in order to first produce a binary executable
+that process just one file at the time, you write the program and then
+when you are writing the overall program that can process multiple file
+you will call this executable that process one file at the time
+
+In execl and execv l is a list and v is vector. In the main function we have the argv and argc parameters.
+In argv we have all the arguments that we passed after the name of the functions.
+If we use execl you will execute a new file, and then you will provide the list of arguments
+that have to be passed to the program that you are calling,
+if you use execv you are passing directly the argv vector.
+
+Then you can use execle in which you use the environment of the calling process.
+Then you can use execlp where p means path. When you are executing something the first parameter
+of exec is the name of the file that contains the executable, the file in your filesystem,
+so you have to provide the full path of the executable.
+If you put p then you type the command without the path if this executable is already
+included in one of the directories that are in default path that your system use.
+
+So execl has as a first argument the path. So where the OS find the executable that you want to execute.
+After you have all the arguments in a list.
+
+The letter l in the execl and execle functions states that the arguments are provided as a list terminated
+by the null pointer
+ 	e.g. int execl(const char *path, const char *arg0,…
+		const char *argn, (char *)0)
+
+ The letter v in the execv and execvp functions states that the arguments are provided as a vector
+ 	e.g. int execv(const char *path, const char *argv[]
+
+
+
+Exec can be called in any process but you should have already an existing process.
+Exec can be run only inside an existing process.
+
+With exec you overlap all the text segment with the text segment of the new program the you are running,
+also the stack and the heap are initialised to be used by the new process.
+Everything is clear except the U-AREA, any files that was open from the process
+that is calling exec is still open for the process that you will run, this allows very close collaboration
+between processes.
+
+The shell is a process for the OS, when type a command in the shell, the OS fork a new process an exact
+ copy of the shell, then the shell call exec with the command that you have provided.
+
+ now modify the code to use exec. In singlefile processing.
+ now in a main file we can have the for loop with the exec system call
+ We do not have to put the exit, with exec everything is overridden,
+ as soon as you run exec the process became the content of the executable
+ that is list in the first argument of exec, the task of the parent is just to creeate
+ child processes,
