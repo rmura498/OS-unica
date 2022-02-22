@@ -1,0 +1,6 @@
+5
+Math  30 10
+Programming 28 5
+Physics 26 8
+OperatingSystems 27 7
+Mechanics 25 5

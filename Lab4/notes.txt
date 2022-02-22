@@ -1,0 +1,51 @@
+PIPE
+
+Pipes that are called also FIFO, because it is a special file (abstract concept provided
+by the OS) and is managed in terms of a fifo, all the items that are added to this file
+can be read from the file exactly in the same order in which they are written in.
+
+When we open a file with fopen() we will get the pointer to the structure of the OS where
+the file is. At the same time it will be for your process, the first, second, third, fifth,
+file that you are opening on that process, so the FILE DESCRIPTOR is an intiger
+number that is increased every time you open a file.
+
+How to use the file descriptors to redirect the output.
+When you create a process there are 3 standard file descriptor,
+0 (stdin) connected to the keyboard
+1 (stdout) to the screen
+2 (stderr) to the screen
+
+now:
+
+DUP is a very powerful system call that takes as an argument a file descriptor
+and returns an integer that is another file descriptor, returns the lowest numbered
+descriptor that currently is not in use by the process.
+In that way you can access this file by two file descriptors.
+
+Typical we will use DUP2, that makes the operations as atomic instructions.
+
+now we can do an example singlefpwithDUP.c
+The results were printed on the screen right?
+let's keep it the same likes before.
+We are changing the main FPExecDUP
+
+NOW i want that all the result are printed in a file.
+i have to open a new file.
+Now i want that the executable that print on the screen, prints on the opened file.
+i have to call dup2 before execl.
+
+NOW
+
+Another usage of dup2 it is with the pipe:
+the idea is that you can ask the OS to create this communication channel and this follow
+the producer/consumer paradigm, the pipe is a fixed buffer in which you write on one hand
+and read on the other.
+The two end of the pipe are stored in an array of two integers, and you will use the file
+descriptors 0  to read or 1 to write.
+So in this way two processes communicate, the parent create the pipe and then
+if the child has to communicate with the parent the child we will write on 1 and parent read on 0.
+e vice-versa.
+
+Unnamed-pipes can be used only with processes that have parent-child relationship.
+named-pipes allow interprocess communication between any pair of unrelated processes.
+

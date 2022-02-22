@@ -1,0 +1,8 @@
+
+ 
+ Student MarkSmith.txt: Average: 27.771429 and Maximum Mark: 30
+
+
+ 
+ Student GeorgeTuf.txt: Average: 27.485714 and Maximum Mark: 30
+
