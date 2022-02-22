@@ -1,0 +1,4 @@
+If you want to use a pipe, but for letting processes that have no parent child relationship,
+and you want them to communicate true a pipe, you have to give to the pipe a name,
+so it can be referred to from any process.
+
